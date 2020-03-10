@@ -1,9 +1,9 @@
 # object-detection-anchors
-** Tips on how to find suitable object detection anchors **
+**Tips on how to find suitable object detection anchors**
 
 When you are training an anchor based object detection model(SSD, YOLOv3, FasterRCNN et al), Find suitable anchors is vatal for good performance. 
 
-For example, if you are detecting pole, the width:height ratio is nearly ** 1:10  ** or larger, if you set anchor aspect ratios to ** 1:3 **  and ** big scales ** , it is horrible.
+For example, if you are detecting pole, the width:height ratio is nearly ** 1:10** or larger, if you set anchor aspect ratios to **1:3**  and **big scales** , it is horrible.
 
 ![](/img/pole.jpg)
 
