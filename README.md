@@ -3,14 +3,14 @@
 
 When you are training an anchor based object detection model(SSD, YOLOv3, FasterRCNN et al), Find suitable anchors is vatal for good performance. 
 
-For example, if you are detecting pole, the width:height ratio is nearly ** 1:10** or larger, if you set anchor aspect ratios to **1:3**  and **big scales** , it is horrible.
+For example, if you are detecting pole, the width:height ratio is nearly **1:10** or larger, the width is of the pole is small,  if you set anchor aspect ratios to **1:3**  and **big scales** , it is horrible.
 
-![](/img/pole.jpg)
+![](/imgs/pole.jpg)
 
-The best method is to visualize your specific  objects width、height、and ratio. The famous YOLOv2 algorithm propose KMeans method to do bounding box cluster. We borrow code from [kmeans-anchor-boxes](https://github.com/lars76/kmeans-anchor-boxes), add some visualize function to show the result.
+The best method is to visualize your specific  objectss **width、height、and aspect ratio**. The famous YOLOv2 algorithm propose KMeans method to do bounding box cluster. We borrow code from [kmeans-anchor-boxes](https://github.com/lars76/kmeans-anchor-boxes), add some visualize function to display the result.
 
 ## Usage
-prepare the annotation folder path in `example.py`, set the `cluster number`, and select wheter to normalize the bouding box.
+Edit the annotation folder path in `example.py`, set the `cluster number`, and select wheter to normalize the bouding box.
 `BBOX_NORMALIZE` means ` bounding box width and height` divided by the corresponding `image width and height`
 
 We use Wider Face dataset as an example.
@@ -54,7 +54,7 @@ And the bounding boxes histogram.
 92.000      108.000     1.2
 204.000      246.000     1.2
 ```
-Now we can know from the chart and statistics, that the suitable aspect ratio is around 1.4， you can chose three aspect ratios, for example:1 、1.4、1.6.
+Now we can know from the chart and statistics, that the suitable aspect ratio is around 1.4， you can chose three aspect ratios, for example:1, 1.4, 1.6.
 
 ### Normalize the bounding box
 
