@@ -1,5 +1,6 @@
 # object-detection-anchors
 **Tips on how to find suitable object detection anchors**
+If you are Chinese, you can have a look at my Chinese blog [新手也能彻底搞懂的目标检测Anchor是什么？怎么科学设置？](https://mp.weixin.qq.com/s?__biz=MzIyMDY2MTUyNg==&mid=2247483842&idx=1&sn=09b94e1a04999e037133c953a0f89871&chksm=97c9d3bba0be5aad97563dc830961978c54b0eac4f5bde9fd94cd4d35f3c525fab43d3ec1f45&mpshare=1&scene=1&srcid=&sharer_sharetime=1587736402445&sharer_shareid=cfe18de94f3a847e5ada278bbc490577&key=9b28fb6495cf9a3bb12f2fa8090781706b7c5613f0ebc113e3c5d21fb9c5c2ee8952528037037f593b9d8fd5c7aba4bb9f326d8b9192158f8febe251a24f3fef02508b415e91a43ea552409bd5269484&ascene=1&uin=Mjc4NjIyNDk2MQ%3D%3D&devicetype=Windows+10+x64&version=62090070&lang=zh_CN&exportkey=AdfJmUPq4nNYiN%2BgNx1UAPc%3D&pass_ticket=ShoH5EcxFHYK5zs%2FzVv2Zir8KES7m0klAjK2zbc37ssk%2F73bfhnvv8qJr%2BecwP5O)
 
 When you are training an anchor based object detection model(SSD, YOLOv3, FasterRCNN et al), Find suitable anchors is vatal for good performance. 
 
