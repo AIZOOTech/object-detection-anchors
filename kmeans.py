@@ -1,23 +1,31 @@
 import numpy as np
 
 
-def iou(box, clusters):
+def iou(boxes, clusters):
     """
-    Calculates the Intersection over Union (IoU) between a box and k clusters.
-    :param box: tuple or array, shifted to the origin (i. e. width and height)
+    Calculates the Intersection over Union (IoU) between N boxes and K clusters.
+    :param boxes: numpy array of shape (n, 2) where n is the number of box, shifted to the origin (i. e. width and height)
     :param clusters: numpy array of shape (k, 2) where k is the number of clusters
-    :return: numpy array of shape (k, 0) where k is the number of clusters
+    :return: numpy array of shape (n, k) where k is the number of clusters
     """
-    x = np.minimum(clusters[:, 0], box[0])
-    y = np.minimum(clusters[:, 1], box[1])
-    if np.count_nonzero(x == 0) > 0 or np.count_nonzero(y == 0) > 0:
-        raise ValueError("Box has no area")
+    N = boxes.shape[0]
+    K = clusters.shape[0]
+    iw = np.minimum(
+        np.broadcast_to(boxes[:, np.newaxis, 0], (N, K)),    # (N, 1) -> (N, K)
+        np.broadcast_to(clusters[np.newaxis, :, 0], (N, K))  # (1, K) -> (N, K)
+    )
+    ih = np.minimum(
+        np.broadcast_to(boxes[:, np.newaxis, 1], (N, K)),
+        np.broadcast_to(clusters[np.newaxis, :, 1], (N, K))
+    )
+    if np.count_nonzero(iw == 0) > 0 or np.count_nonzero(ih == 0) > 0:
+        raise ValueError("Some box has no area")
 
-    intersection = x * y
-    box_area = box[0] * box[1]
-    cluster_area = clusters[:, 0] * clusters[:, 1]
+    intersection = iw * ih   # (N, K)
+    boxes_area = np.broadcast_to((boxes[:, np.newaxis, 0] * boxes[:, np.newaxis, 1]), (N, K))
+    clusters_area = np.broadcast_to((clusters[np.newaxis, :, 0] * clusters[np.newaxis, :, 1]), (N, K))
 
-    iou_ = intersection / (box_area + cluster_area - intersection)
+    iou_ = intersection / (boxes_area + clusters_area - intersection + 1e-7)
 
     return iou_
 
@@ -29,7 +37,7 @@ def avg_iou(boxes, clusters):
     :param clusters: numpy array of shape (k, 2) where k is the number of clusters
     :return: average IoU as a single float
     """
-    return np.mean([np.max(iou(boxes[i], clusters)) for i in range(boxes.shape[0])])
+    return np.mean(np.max(iou(boxes, clusters), axis=1))
 
 
 def translate_boxes(boxes):
@@ -68,9 +76,7 @@ def kmeans(boxes, k, dist=np.median):
         print("Iteration: %d" % iter_num)
         iter_num += 1
 
-        for row in range(rows):
-            distances[row] = 1 - iou(boxes[row], clusters)
-
+        distances = 1 - iou(boxes, clusters)
         nearest_clusters = np.argmin(distances, axis=1)
 
         if (last_clusters == nearest_clusters).all():
